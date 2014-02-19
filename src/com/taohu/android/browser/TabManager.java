@@ -93,6 +93,7 @@ public class TabManager extends FrameLayout implements ViewTreeObserver.OnTouchM
 		setDescendantFocusability(FOCUS_AFTER_DESCENDANTS);
 		mCurrentTabIndex = -1;
 		mCurrentView = null;
+		mCurrentTab = null;
 		mTabContentContainerId = R.id.tabcontent;
 		mTabs = new ArrayList<Tab>();
 	}
@@ -176,6 +177,9 @@ public class TabManager extends FrameLayout implements ViewTreeObserver.OnTouchM
 	public void addTabFragment(Tab tab) {
 		FragmentTransaction ft = mFragmentManager.beginTransaction();
 		mFragmentManager.executePendingTransactions();
+		if (mCurrentTab!=null){
+			ft.hide(mCurrentTab.getFragment());
+		}
 		tab.setFragment(createTabFragment(tab));
 		ft.add(mTabContentContainerId, tab.getFragment(), String.valueOf(tab.getTag()));
 		mCurrentTab = tab;
